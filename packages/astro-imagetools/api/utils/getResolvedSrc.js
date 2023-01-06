@@ -10,8 +10,10 @@ import {
 
 const { fileTypeFromBuffer } = await import("file-type");
 
+const { createHmac } = await import('node:crypto')
+
 export default async function getResolvedSrc(src) {
-  const token = "ai_" + Buffer.from(src).toString("base64");
+  const token = "ai_" + createHmac('sha256', src).digest('hex');
 
   let filepath = fsCachePath + token;
 
